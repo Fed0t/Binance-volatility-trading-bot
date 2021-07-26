@@ -2,7 +2,7 @@
 script_options:
   # Switch between testnet and main-net
   # Setting this to False will use REAL funds, use at your own risk
-  TEST_MODE: True
+  TEST_MODE: False
   LOG_TRADES: True
   LOG_FILE: 'trades.txt'
   TELEGRAM_TOKEN: '1843987242:AAFBQji4QPK9pD4r70oZpJqKTkUHl4DKXJM'
@@ -29,6 +29,8 @@ trading_options:
   # by default we're excluding the most popular fiat pairs
   FIATS:
     - EURUSDT
+    - BTCUSDT
+    - ETHUSDT
     - GBPUSDT
     - JPYUSDT
     - USDUSDT
@@ -36,7 +38,7 @@ trading_options:
     - UP
 
   # Maximum number of trade 'slots' at any time (your USDT balance must be at least MAX_COINS * QUANTITY)
-  MAX_COINS: 5
+  MAX_COINS: 3
 
   # the amount of time in MINUTES to calculate the difference from the current price (minimum: 1).
   TIME_DIFFERENCE: 5
