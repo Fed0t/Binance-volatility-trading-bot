@@ -2,9 +2,12 @@
 script_options:
   # Switch between testnet and main-net
   # Setting this to False will use REAL funds, use at your own risk
-  TEST_MODE: False
+  TEST_MODE: True
   LOG_TRADES: True
   LOG_FILE: 'trades.txt'
+  TELEGRAM_TOKEN: '1843987242:AAFBQji4QPK9pD4r70oZpJqKTkUHl4DKXJM'
+  TELEGRAM_GROUP: '-526094512'
+
 
   # Set this to true if you are accessing binance from within the United States of America
   # Need to change TLD
@@ -33,7 +36,7 @@ trading_options:
     - UP
 
   # Maximum number of trade 'slots' at any time (your USDT balance must be at least MAX_COINS * QUANTITY)
-  MAX_COINS: 7
+  MAX_COINS: 5
 
   # the amount of time in MINUTES to calculate the difference from the current price (minimum: 1).
   TIME_DIFFERENCE: 5
@@ -46,7 +49,7 @@ trading_options:
   CHANGE_IN_PRICE: 4.5
 
   # define in % when to sell a coin that's not making a profit.
-  STOP_LOSS: 2
+  STOP_LOSS: 1.8
 
   # define in % when to take profit on a profitable coin.
   TAKE_PROFIT: 3
@@ -63,7 +66,7 @@ trading_options:
   # when hit TAKE_PROFIT, move STOP_LOSS to TRAILING_STOP_LOSS percentage points below TAKE_PROFIT hence locking in profit
   # when hit TAKE_PROFIT, move TAKE_PROFIT up by TRAILING_TAKE_PROFIT percentage points
   TRAILING_STOP_LOSS: .3
-  TRAILING_TAKE_PROFIT: .1
+  TRAILING_TAKE_PROFIT: .2
 
   # Trading fee in % per trade.
   # If using 0.75% (using BNB for fees) you must have BNB in your account to cover trading fees.

@@ -28,6 +28,9 @@ import glob
 
 # Needed for colorful console output Install with: python3 -m pip install colorama (Mac/Linux) or pip install colorama (PC)
 from colorama import init
+
+from utilities.notifications import notify
+
 init()
 
 # needed for the binance API / websockets / Exception handling
@@ -169,9 +172,12 @@ def wait_for_price():
                 if len(coins_bought) + len(volatile_coins) < MAX_COINS or MAX_COINS == 0:
                     volatile_coins[coin] = round(threshold_check, 3)
                     print(f'{coin} has gained {volatile_coins[coin]}% within the last {TIME_DIFFERENCE} minutes, calculating volume in {PAIR_WITH}')
-
+                    notify(f'{coin} has gained {volatile_coins[coin]}% within the last {TIME_DIFFERENCE} minutes, calculating volume in {PAIR_WITH}')
                 else:
-                    print(f'{txcolors.WARNING}{coin} has gained {round(threshold_check, 3)}% within the last {TIME_DIFFERENCE} minutes, but you are holding max number of coins{txcolors.DEFAULT}')
+                    print(f'{txcolors.WARNING}{coin} has gained {round(threshold_check, 3)}% within the last'
+                          f' {TIME_DIFFERENCE} minutes, but you are holding max number of coins{txcolors.DEFAULT}')
+                    notify(f'{coin} has gained {round(threshold_check, 3)}% within the last {TIME_DIFFERENCE}'
+                           f' minutes, but you are holding max number of coins')
 
         elif threshold_check < CHANGE_IN_PRICE:
             coins_down +=1
@@ -233,7 +239,9 @@ def pause_bot():
         get_price(True)
 
         # pausing here
-        if hsp_head == 1: print(f'Paused...Session profit:{session_profit:.2f}% Est:${(QUANTITY * session_profit)/100:.2f}')
+        if hsp_head == 1:
+            print(f'Paused...Session profit:{session_profit:.2f}% Est:${(QUANTITY * session_profit)/100:.2f}')
+            notify(f'Paused...Session profit:{session_profit:.2f}% Est:${(QUANTITY * session_profit)/100:.2f}')
         time.sleep((TIME_DIFFERENCE * 60) / RECHECK_INTERVAL)
 
     else:
@@ -299,7 +307,7 @@ def buy():
         # only buy if the there are no active trades on the coin
         if coin not in coins_bought:
             print(f"{txcolors.BUY}Preparing to buy {volume[coin]} {coin}{txcolors.DEFAULT}")
-
+            notify(f"{txcolors.BUY}Preparing to buy {volume[coin]} {coin}{txcolors.DEFAULT}")
             if TEST_MODE:
                 orders[coin] = [{
                     'symbol': coin,
@@ -343,6 +351,7 @@ def buy():
                     # Log trade
                     if LOG_TRADES:
                         write_log(f"Buy : {volume[coin]} {coin} - {last_price[coin]['price']}")
+                        notify(f"Buy : {volume[coin]} {coin} - {last_price[coin]['price']}")
 
 
         else:
@@ -382,7 +391,7 @@ def sell_coins():
         # check that the price is below the stop loss or above take profit (if trailing stop loss not used) and sell if this is the case
         if LastPrice < SL or LastPrice > TP and not USE_TRAILING_STOP_LOSS:
             print(f"{txcolors.SELL_PROFIT if PriceChange >= 0. else txcolors.SELL_LOSS}TP or SL reached, selling {coins_bought[coin]['volume']} {coin} - {BuyPrice} - {LastPrice} : {PriceChange-(TRADING_FEE*2):.2f}% Est:${(QUANTITY*(PriceChange-(TRADING_FEE*2)))/100:.2f}{txcolors.DEFAULT}")
-
+            notify(f"TP or SL reached, selling {coins_bought[coin]['volume']} {coin} - {BuyPrice} - {LastPrice} : {PriceChange-(TRADING_FEE*2):.2f}% Est:${(QUANTITY*(PriceChange-(TRADING_FEE*2)))/100:.2f}")
             # try to create a real order
             try:
 
@@ -410,6 +419,7 @@ def sell_coins():
                 if LOG_TRADES:
                     profit = ((LastPrice - BuyPrice) * coins_sold[coin]['volume'])* (1-(TRADING_FEE*2)) # adjust for trading fee here
                     write_log(f"Sell: {coins_sold[coin]['volume']} {coin} - {BuyPrice} - {LastPrice} Profit: {profit:.2f} {PriceChange-(TRADING_FEE*2):.2f}%")
+                    notify(f"Sell: {coins_sold[coin]['volume']} {coin} - {BuyPrice} - {LastPrice} Profit: {profit:.2f} {PriceChange-(TRADING_FEE*2):.2f}%")
                     session_profit=session_profit + (PriceChange-(TRADING_FEE*2))
             continue
 
@@ -417,6 +427,8 @@ def sell_coins():
         if hsp_head == 1:
             if len(coins_bought) > 0:
                 print(f'TP or SL not yet reached, not selling {coin} for now {BuyPrice} - {LastPrice} : {txcolors.SELL_PROFIT if PriceChange >= 0. else txcolors.SELL_LOSS}{PriceChange-(TRADING_FEE*2):.2f}% Est:${(QUANTITY*(PriceChange-(TRADING_FEE*2)))/100:.2f}{txcolors.DEFAULT}')
+                notify(f'TP or SL not yet reached, not selling {coin} for now {BuyPrice} - {LastPrice} : '
+                       f'{PriceChange-(TRADING_FEE*2):.2f}% Est:${(QUANTITY*(PriceChange-(TRADING_FEE*2)))/100:.2f}')
 
     if hsp_head == 1 and len(coins_bought) == 0: print(f'Not holding any coins')
  
@@ -557,6 +569,7 @@ if __name__ == '__main__':
     if not TEST_MODE:
         if not args.notimeout: # if notimeout skip this (fast for dev tests)
             print('WARNING: You are using the Mainnet and live funds. Waiting 30 seconds as a security measure')
+            notify('WARNING: You are using the Mainnet and live funds. Waiting 30 seconds as a security measure')
             time.sleep(30)
 
     signals = glob.glob("signals/*.exs")
