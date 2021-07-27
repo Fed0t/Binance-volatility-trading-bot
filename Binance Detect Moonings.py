@@ -307,7 +307,7 @@ def buy():
         # only buy if the there are no active trades on the coin
         if coin not in coins_bought:
             print(f"{txcolors.BUY}Preparing to buy {volume[coin]} {coin}{txcolors.DEFAULT}")
-            notify(f"{txcolors.BUY}Preparing to buy {volume[coin]} {coin}{txcolors.DEFAULT}")
+            notify(f"Preparing to buy {volume[coin]} {coin}")
             if TEST_MODE:
                 orders[coin] = [{
                     'symbol': coin,
