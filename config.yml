@@ -51,7 +51,7 @@ trading_options:
   CHANGE_IN_PRICE: 4.5
 
   # define in % when to sell a coin that's not making a profit.
-  STOP_LOSS: 1.1
+  STOP_LOSS: 1.9
 
   # define in % when to take profit on a profitable coin.
   TAKE_PROFIT: 5
