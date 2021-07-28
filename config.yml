@@ -29,8 +29,6 @@ trading_options:
   # by default we're excluding the most popular fiat pairs
   FIATS:
     - EURUSDT
-    - BTCUSDT
-    - ETHUSDT
     - GBPUSDT
     - JPYUSDT
     - USDUSDT
@@ -41,20 +39,20 @@ trading_options:
   MAX_COINS: 4
 
   # the amount of time in MINUTES to calculate the difference from the current price (minimum: 1).
-  TIME_DIFFERENCE: 5
+  TIME_DIFFERENCE: 3
 
   # Number of times to check for TP/SL during each TIME_DIFFERENCE (minimum: 1).
   # Don't spam the Binance API, you will be banned (max 1200 requests per minute per IP).
-  RECHECK_INTERVAL: 17
+  RECHECK_INTERVAL: 10
 
   # the difference in % between the first and second checks for the price.
-  CHANGE_IN_PRICE: 4.7
+  CHANGE_IN_PRICE: 6
 
   # define in % when to sell a coin that's not making a profit.
-  STOP_LOSS: 4
+  STOP_LOSS: 3.8
 
   # define in % when to take profit on a profitable coin.
-  TAKE_PROFIT: .8
+  TAKE_PROFIT: .9
 
   # Use custom tickers.txt list for filtering pairs.
   CUSTOM_LIST: False
