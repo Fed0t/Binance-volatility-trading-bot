@@ -33,7 +33,7 @@ from utilities.notifications import notify
 
 init()
 
-# needed for the binance API / websockets / Exception handling
+# needed for the binance API / webu are using the Masockets / Exception handling
 from binance.client import Client
 from binance.exceptions import BinanceAPIException
 from requests.exceptions import ReadTimeout, ConnectionError
@@ -569,7 +569,9 @@ if __name__ == '__main__':
     if not TEST_MODE:
         if not args.notimeout: # if notimeout skip this (fast for dev tests)
             print('WARNING: You are using the Mainnet and live funds. Waiting 30 seconds as a security measure')
-            notify('WARNING: You are using the Mainnet and live funds. Waiting 30 seconds as a security measure')
+            notify('WARNING: You are using the Mainnet and live funds. Waiting 30 seconds as a security measure.'
+                   + TIME_DIFFERENCE + 'm, Change Trigger:' + str(CHANGE_IN_PRICE) + '%, Stop Loss: '
+                   + str(STOP_LOSS) + '%' + ', Take Profit: ' + str(TAKE_PROFIT))
             time.sleep(30)
 
     signals = glob.glob("signals/*.exs")
