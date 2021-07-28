@@ -570,7 +570,7 @@ if __name__ == '__main__':
         if not args.notimeout: # if notimeout skip this (fast for dev tests)
             print('WARNING: You are using the Mainnet and live funds. Waiting 30 seconds as a security measure')
             notify('WARNING: You are using the Mainnet and live funds. Waiting 30 seconds as a security measure.'
-                   + TIME_DIFFERENCE + 'm, Change Trigger:' + str(CHANGE_IN_PRICE) + '%, Stop Loss: '
+                   + str(TIME_DIFFERENCE) + 'm, Change Trigger:' + str(CHANGE_IN_PRICE) + '%, Stop Loss: '
                    + str(STOP_LOSS) + '%' + ', Take Profit: ' + str(TAKE_PROFIT))
             time.sleep(30)
 
